@@ -68,7 +68,7 @@ sequenceDiagram
 
 ## New Note in SPA Diagram (exercise 0.6)
 ```mermaid
-%%{init: { "sequence": { "wrap": true, "width":450 } } }%%
+%%{init: { "sequence": { "wrap": true, "width":500 } } }%%
 sequenceDiagram
     participant browser
     participant server
