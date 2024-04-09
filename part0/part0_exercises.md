@@ -65,3 +65,22 @@ sequenceDiagram
 
     Note right of browser: The browser executes the callback function that renders the notes
 ```
+
+## New Note in SPA Diagram (exercise 0.6)
+```mermaid
+%%{init: { "sequence": { "wrap": true, "width":450 } } }%%
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: JavaScript Event handler prevents default handling on submit, fetches form data from the DOM API.
+    Note right of browser: JavaScript Event handler then rerenders the notes with the redrawNotes() function.
+    Note right of browser: Finally sends the POST request to the server
+    Note right of browser: Also tells server how to parse the data with the content-type header "application/json"
+
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    server-->>browser: 201 response created from application/json {"message":"note created"}
+    deactivate server
+```
