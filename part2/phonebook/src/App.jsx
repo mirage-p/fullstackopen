@@ -3,12 +3,15 @@ import contactServices from './services/contact'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [message, setMessage] = useState(null)
+  const [type, setType] = useState('')
 
   useEffect(() => {
     contactServices
@@ -31,6 +34,17 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== changedPerson.id ? person : returnedPerson))
           })
+          .catch(error => {
+            setMessage(
+              `Information of '${changedPerson.name}' has already been removed from server`
+            )
+            setType('error')
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+            setPersons(persons.filter(person => person.id !== changedPerson.id))
+
+          })
       }
     } else {
       const personObject = {
@@ -42,6 +56,11 @@ const App = () => {
         .then(returnedPersons => {
           setPersons(persons.concat(returnedPersons))
         })
+      setMessage(`Added ${newName}`)
+      setType('confirm')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
     setNewName('')
     setNewNumber('')
@@ -68,7 +87,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Notification message={message} type={type} />
       <Filter search={search} handleSearch={handleSearch} />
 
       <h2>add a new</h2>
