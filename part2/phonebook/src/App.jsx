@@ -43,7 +43,6 @@ const App = () => {
               setMessage(null)
             }, 5000)
             setPersons(persons.filter(person => person.id !== changedPerson.id))
-
           })
       }
     } else {
@@ -55,12 +54,19 @@ const App = () => {
         .create(personObject)
         .then(returnedPersons => {
           setPersons(persons.concat(returnedPersons))
+          setMessage(`Added ${newName}`)
+          setType('confirm')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
-      setMessage(`Added ${newName}`)
-      setType('confirm')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+        .catch(error => {
+          setMessage(error.response.data.error)
+          setType('error')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
     }
     setNewName('')
     setNewNumber('')
